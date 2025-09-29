@@ -1,9 +1,12 @@
 package com.design.pattern.singletone;
 
+import com.design.pattern.adapter.StudentRepositoryInterface;
 import com.design.pattern.model.Student;
+
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
 import lombok.Getter;
 
 /**
@@ -30,54 +33,73 @@ import lombok.Getter;
  * );
  * }</pre>
  */
-public class StudentsRepository {
+public class StudentsRepository implements StudentRepositoryInterface {
 
-  /** The list of all students in the repository. */
-  @Getter private static final List<Student> students;
+    /**
+     * The list of all students in the repository.
+     */
+    @Getter
+    private static final List<Student> students;
 
-  /** Internal map of student IDs to their earned points. */
-  private static final Map<Integer, Integer> studentPoints;
+    /**
+     * Internal map of student IDs to their earned points.
+     */
+    private static final Map<Integer, Integer> studentPoints;
 
-  /** Singleton instance of {@code StudentsRepository}. */
-  private static StudentsRepository instance;
+    /**
+     * Singleton instance of {@code StudentsRepository}.
+     */
+    private static StudentsRepository instance;
 
-  static {
-    students =
-        List.of(
-            new Student(1, "Volodymyr", "Dobrianskyi"),
-            new Student(2, "Vadim", "Darmohrai"),
-            new Student(3, "Nikita", "Zaloha"),
-            new Student(4, "David", "Dvinskyi"));
+    static {
+        students =
+                List.of(
+                        new Student(1, "Volodymyr", "Dobrianskyi"),
+                        new Student(2, "Vadym", "Darmohrai"),
+                        new Student(3, "Nikita", "Zaloha"),
+                        new Student(4, "David", "Dvinskyi"));
 
-    studentPoints = Map.of(1, 100, 2, 100, 3, 5, 4, 200);
-  }
-
-  /** Private constructor to prevent external instantiation. */
-  private StudentsRepository() {}
-
-  /**
-   * Returns the singleton instance of {@code StudentsRepository}.
-   *
-   * @return the single instance of this repository
-   */
-  public static synchronized StudentsRepository getInstance() {
-    if (instance == null) {
-      instance = new StudentsRepository();
+        studentPoints = Map.of(1, 100, 2, 100, 3, 5, 4, 200);
     }
-    return instance;
-  }
 
-  /**
-   * Returns a map of {@link Student} to their earned points.
-   *
-   * <p>The map keys are {@code Student} objects, and the values are the points retrieved from the
-   * internal {@code studentPoints} map.
-   *
-   * @return a map of students and their corresponding points
-   */
-  public Map<Student, Integer> getStudentsWithPoints() {
-    return students.stream()
-        .collect(
-            Collectors.toMap(student -> student, student -> studentPoints.get(student.getId())));
-  }
+    /**
+     * Private constructor to prevent external instantiation.
+     */
+    private StudentsRepository() {
+    }
+
+    /**
+     * Returns the singleton instance of {@code StudentsRepository}.
+     *
+     * @return the single instance of this repository
+     */
+    public static synchronized StudentsRepository getInstance() {
+        if (instance == null) {
+            instance = new StudentsRepository();
+        }
+        return instance;
+    }
+
+    /**
+     * Returns a map of {@link Student} to their earned points.
+     *
+     * <p>The map keys are {@code Student} objects, and the values are the points retrieved from the
+     * internal {@code studentPoints} map.
+     *
+     * @return a map of students and their corresponding points
+     */
+    public Map<Student, Integer> getStudentsWithPoints() {
+        return students.stream()
+                .collect(
+                        Collectors.toMap(student -> student, student -> studentPoints.get(student.getId())));
+    }
+
+    public Student findStudentById(Integer id) {
+        Student foundedStudent = null;
+        for (Student student : students) {
+            if (student.getId().equals(id))
+                foundedStudent = student;
+        }
+        return foundedStudent;
+    }
 }
