@@ -1,4 +1,6 @@
 package com.design.pattern.iterator;
 
-public class Aggregate {
+public interface Aggregate<T> {
+
+    Iterator<T> createIterator();
 }

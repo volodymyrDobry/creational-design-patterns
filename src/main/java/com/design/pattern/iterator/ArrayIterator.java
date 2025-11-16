@@ -1,13 +1,20 @@
 package com.design.pattern.iterator;
 
-public class StudentIterator<T> implements Iterator<T> {
+public class ArrayIterator<T> implements Iterator<T> {
 
     private T items[];
     private int position = 0;
 
-    public StudentIterator() {
-
+    public ArrayIterator(T[] items) {
+        this.items = items;
     }
 
+    public boolean hasNext() {
+        return position < items.length;
+    }
+
+    public T next() {
+        return items[position++];
+    }
 
 }

@@ -8,4 +8,6 @@ public interface ExamComponent {
     void setTitle(String title);
 
     Question getRandomQuestion();
+
+    boolean isLast();
 }
