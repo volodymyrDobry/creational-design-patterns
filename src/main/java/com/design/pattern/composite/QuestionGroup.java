@@ -1,6 +1,7 @@
 package com.design.pattern.composite;
 
 import com.design.pattern.model.Student;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Random;
 public class QuestionGroup implements ExamComponent {
     private final Random random = new Random();
 
+    @Getter
     private List<ExamComponent> components = new ArrayList<>();
     private String title = "Title group unknown";
 
@@ -31,5 +33,10 @@ public class QuestionGroup implements ExamComponent {
 
     public void add(ExamComponent examComponent) {
         components.add(examComponent);
+    }
+
+    @Override
+    public boolean isLast() {
+        return false;
     }
 }
